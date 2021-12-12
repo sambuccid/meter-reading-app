@@ -8,12 +8,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sambuccid.meterreadingapp.entity.Address;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
 
 @SpringBootTest
@@ -27,7 +33,7 @@ public class MeterIntegrationTests {
 	public void newMeter() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"gasReading\":123}"))//TODO add other fields
+				.content("{\"gasReading\":123}"))
 			.andExpect(status().isOk()).andReturn();
 		assertThat(mvcResult.getResponse().getContentAsString().isEmpty()).isFalse();
 	}
@@ -38,6 +44,7 @@ public class MeterIntegrationTests {
 				.param("id", "1234567890"))
 			.andExpect(status().isOk());
 	}
+	
 	@Test
 	public void newMeterGetsSaved() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
@@ -48,9 +55,28 @@ public class MeterIntegrationTests {
 		
 		mockMvc.perform(get("/meter")
 				.param("id", newMeterId))
-			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(containsString("\"gasReading\":123")));
+	}
+	
+	//TODO this should be tested in the unit test, because it tests what the service does
+	@Test
+	public void newMeterWithNewAddress() throws Exception {
+		mockMvc.perform(post("/meter/new")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"gasReading\":123,\"address\":{\"postcode\":\"EC1 1PL\",\"housenum\":\"12\"}}"))
+			.andExpect(status().isOk());
+		
+		MvcResult mvcResult = mockMvc.perform(get("/address/find")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"postcode\":\"EC1 1PL\"}"))
+			.andExpect(status().isOk()).andReturn();
+		String addressesJson = mvcResult.getResponse().getContentAsString();
+		ObjectMapper mapper = new ObjectMapper();
+		List<Address> addresses = mapper.readValue(addressesJson, mapper.getTypeFactory().constructCollectionType(List.class, Address.class));
+		
+		assertThat(addresses.size()>0).isTrue();
+		assertThat(addresses.get(0).getPostcode().equals("EC1 1PL")).isTrue();
 	}
 	
 }

@@ -4,20 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
-public class Meter {
-	
+public class Address {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private Integer gasReading;
-
-	@ManyToOne
-	private Address address;
+	private String postcode;
 	
+	private String houseNum;
+
 	
 	public Long getId() {
 		return id;
@@ -27,21 +25,19 @@ public class Meter {
 		this.id = id;
 	}
 
-	public Integer getGasReading() {
-		return gasReading;
+	public String getPostcode() {
+		return postcode;
 	}
 
-	public void setGasReading(Integer gasReading) {
-		this.gasReading = gasReading;
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 
-	public Address getAddress() {
-		return address;
+	public String getHouseNum() {
+		return houseNum;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setHouseNum(String houseNum) {
+		this.houseNum = houseNum;
 	}
-	
-	
 }
