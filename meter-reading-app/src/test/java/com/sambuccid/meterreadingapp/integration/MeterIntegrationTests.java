@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,6 +24,15 @@ public class MeterIntegrationTests {
 	
 	@Test
 	public void newMeter() throws Exception {
+		mockMvc.perform(post("/meter/new")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"gasReading\":123}"))//TODO add other fields
+			.andDo(print())
+			.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void newMeterGetsSaved() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"gasReading\":123}"))//TODO add other fields
