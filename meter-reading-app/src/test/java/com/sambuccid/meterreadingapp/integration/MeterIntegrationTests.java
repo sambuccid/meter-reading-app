@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -24,13 +25,19 @@ public class MeterIntegrationTests {
 	
 	@Test
 	public void newMeter() throws Exception {
-		mockMvc.perform(post("/meter/new")
+		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"gasReading\":123}"))//TODO add other fields
-			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isOk()).andReturn();
+		assertThat(mvcResult.getResponse().getContentAsString().isEmpty()).isFalse();
 	}
 	
+	@Test
+	public void getMeter() throws Exception {
+		mockMvc.perform(get("/meter")
+				.param("id", "1234567890"))
+			.andExpect(status().isOk());
+	}
 	@Test
 	public void newMeterGetsSaved() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
@@ -41,7 +48,9 @@ public class MeterIntegrationTests {
 		
 		mockMvc.perform(get("/meter")
 				.param("id", newMeterId))
+			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().string(containsString("\"gasReading\":123")));
 	}
+	
 }
