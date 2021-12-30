@@ -1,0 +1,12 @@
+.button a{
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 12px;
+    display: inline-block;
+    background-color: rgba(159, 159, 224, 0.692);
+}
+
+.button a:hover{
+    background-color: rgba(99, 99, 243, 0.692);
+    cursor: pointer;
+}

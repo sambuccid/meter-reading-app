@@ -1,0 +1,15 @@
+.menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.menu>div{
+    margin: auto;
+}
+
+.home>.readingList{
+    margin-top: 20px;
+}
