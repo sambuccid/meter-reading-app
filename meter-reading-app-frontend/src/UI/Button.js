@@ -1,8 +1,12 @@
 import './Button.css'
 
 function Button(props){
+    function clickHandler(){
+        props.onClick();
+    }
+
     return (
-        <div className='button'><a>{props.children}</a></div>
+        <div className='button'><a onClick={clickHandler}>{props.children}</a></div>
     );
 }
 

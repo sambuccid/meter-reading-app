@@ -1,0 +1,42 @@
+.new-reading {
+  background-color: rgba(159, 159, 224, 0.692);
+  max-width: 90%;
+  width: 50rem;
+  margin: auto;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.new-reading.hide {
+  display: none;
+}
+
+.new-reading label {
+  font-weight: bold;
+  display: block;
+  margin: 5px;
+}
+
+.new-reading input {
+  padding: 3px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.new-reading button {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 12px;
+  width: 5rem;
+  display: inline-block;
+  background-color: rgba(199, 199, 243, 0.692);
+  align-self: flex-end;
+}
+
+.new-reading button:hover {
+  background-color: rgba(99, 99, 243, 0.692);
+  cursor: pointer;
+}
