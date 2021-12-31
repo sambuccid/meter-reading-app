@@ -57,7 +57,7 @@ const NewReading = (props) => {
           step="1"
         />
       </div>
-      <div class="buttons">
+      <div className="buttons">
         <button onClick={cancelHandler}>Cancel</button>
         <button type="submit">Save</button>
       </div>

@@ -1,4 +1,4 @@
-.readingList{
+.readingList .list{
     display: flex;
     flex-direction: row;
 }

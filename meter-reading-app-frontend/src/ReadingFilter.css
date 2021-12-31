@@ -1,0 +1,18 @@
+.reading-filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.reading-filter label {
+  font-weight: bold;
+  display: block;
+  margin: 5px;
+}
+
+.reading-filter input {
+  padding: 3px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 5px;
+}

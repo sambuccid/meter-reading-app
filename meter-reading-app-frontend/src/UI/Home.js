@@ -30,7 +30,6 @@ function Home() {
     <div className="home">
       <div className="menu">
         <Button onClick={newReadingClickHandler}>New Reading</Button>
-        <Button>Filter</Button>
       </div>
       {showReading && (
         <NewReading
