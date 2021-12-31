@@ -3,10 +3,15 @@ import "./Home.css";
 import Button from "./Button";
 import ReadingList from "../ReadingList";
 import NewReading from "../Reading/NewReading";
+import * as meterInterface from "../ServerInterface/MeterInterface";
 
 function Home() {
   const [showReading, setShowReading] = useState(false);
-  const [readingList, setReadingList] = useState([]);
+  const [readingList, setReadingList] = useState([]); //TODO this is wrong, needs to fix it to ansycronously read initial data
+
+  function loadReadingList(callback) {
+    meterInterface.allMeters(callback);
+  }
 
   function newReadingClickHandler() {
     setShowReading(true);
@@ -14,7 +19,7 @@ function Home() {
 
   function savedReadingHandler() {
     setShowReading(false);
-    //TODO need to update the reading list loading it again from the MeterInterface module
+    loadReadingList(setReadingList);
   }
 
   return (
@@ -24,7 +29,7 @@ function Home() {
         <Button>Filter</Button>
       </div>
       <NewReading show={showReading} onSavedReading={savedReadingHandler} />
-      <ReadingList className="readingList" readingList={readingList}/>
+      <ReadingList className="readingList" readingList={readingList} />
     </div>
   );
 }

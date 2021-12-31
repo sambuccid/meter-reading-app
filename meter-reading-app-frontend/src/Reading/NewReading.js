@@ -33,11 +33,11 @@ const NewReading = (props) => {
 
   return (
     <form className={"new-reading " + shownClass} onSubmit={submitHandler}>
-      <div class="street-name">
+      <div className="street-name">
         <label>Street Name</label>
         <input value={street} type="text" onChange={streetChangeHandler} />
       </div>
-      <div class="street-num">
+      <div className="street-num">
         <label>Street Number</label>
         <input
           type="text"
@@ -45,7 +45,7 @@ const NewReading = (props) => {
           onChange={streetNumChangeHandler}
         />
       </div>
-      <div class="street-energy">
+      <div className="street-energy">
         <label>Energy</label>
         <input
           type="number"
