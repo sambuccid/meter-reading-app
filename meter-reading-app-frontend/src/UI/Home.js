@@ -17,6 +17,10 @@ function Home() {
     setShowReading(true);
   }
 
+  function hideReadingHandler() {
+    setShowReading(false);
+  }
+
   function savedReadingHandler() {
     setShowReading(false);
     loadReadingList(setReadingList);
@@ -28,7 +32,12 @@ function Home() {
         <Button onClick={newReadingClickHandler}>New Reading</Button>
         <Button>Filter</Button>
       </div>
-      <NewReading show={showReading} onSavedReading={savedReadingHandler} />
+      {showReading && (
+        <NewReading
+          onSavedReading={savedReadingHandler}
+          onCancel={hideReadingHandler}
+        />
+      )}
       <ReadingList className="readingList" readingList={readingList} />
     </div>
   );

@@ -3,7 +3,6 @@ import "./NewReading.css";
 import { saveMeter } from "../ServerInterface/MeterInterface";
 
 const NewReading = (props) => {
-  const shownClass = props.show ? "" : "hide";
   const [street, setStreet] = useState("");
   const [streetNum, setStreetNum] = useState("");
   const [energy, setEnergy] = useState("");
@@ -13,12 +12,16 @@ const NewReading = (props) => {
     setStreet("");
     setStreetNum("");
     setEnergy("");
-    saveMeter({ //TODO these variable names are not correct, we are putting those for now but they needs changing 
-        street,
-        streetNum,
-        energy
+    saveMeter({
+      //TODO these variable names are not correct, we are putting those for now but they needs changing
+      street,
+      streetNum,
+      energy,
     });
     props.onSavedReading();
+  }
+  function cancelHandler(){
+    props.onCancel();
   }
 
   function streetChangeHandler(event) {
@@ -32,7 +35,7 @@ const NewReading = (props) => {
   }
 
   return (
-    <form className={"new-reading " + shownClass} onSubmit={submitHandler}>
+    <form className="new-reading" onSubmit={submitHandler}>
       <div className="street-name">
         <label>Street Name</label>
         <input value={street} type="text" onChange={streetChangeHandler} />
@@ -54,7 +57,10 @@ const NewReading = (props) => {
           step="1"
         />
       </div>
-      <button type="submit">Save</button>
+      <div class="buttons">
+        <button onClick={cancelHandler}>Cancel</button>
+        <button type="submit">Save</button>
+      </div>
     </form>
   );
 };

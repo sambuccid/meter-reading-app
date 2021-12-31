@@ -9,10 +9,6 @@
   flex-direction: column;
 }
 
-.new-reading.hide {
-  display: none;
-}
-
 .new-reading label {
   font-weight: bold;
   display: block;
@@ -24,6 +20,12 @@
   border: 2px solid black;
   border-radius: 5px;
   margin: 5px;
+}
+
+.new-reading .buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .new-reading button {
