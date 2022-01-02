@@ -20,42 +20,33 @@ function error(title, message){
 }
 
 const NewReading = (props) => {
-  const [street, setStreet] = useState("");
-  const [streetNum, setStreetNum] = useState("");
-  const [energy, setEnergy] = useState("");
+  const streetRef = useRef();
+  const streetNumRef = useRef();
+  const energyRef = useRef();
   const [error, setError] = useState(null);
 
   function submitHandler(event) {
     event.preventDefault();
     const meter = {
       //TODO these variable names are not correct, we are putting those for now but they needs changing
-      street,
-      streetNum,
-      energy,};
+      street: streetRef.current.value,
+      streetNum: streetNumRef.current.value,
+      energy: energyRef.current.value};
     const validationError = validate(meter);
     if(validationError){
       setError(validationError);
       return;
     }
-    setStreet("");
-    setStreetNum("");
-    setEnergy("");
+
+    streetRef.current.value="";
+    streetNumRef.current.value="";
+    energyRef.current.value="";
+
     saveMeter(meter);
     props.onSavedReading();
   }
   function cancelHandler() {
     props.onCancel();
-  }
- 
-
-  function streetChangeHandler(event) {
-    setStreet(event.target.value);
-  }
-  function streetNumChangeHandler(event) {
-    setStreetNum(event.target.value);
-  }
-  function energyChangeHandler(event) {
-    setEnergy(event.target.value);
   }
 
 function errorAcceptHandler(){
@@ -67,23 +58,21 @@ function errorAcceptHandler(){
       <form className="new-reading" onSubmit={submitHandler}>
         <div className="street-name">
           <label>Street Name</label>
-          <input value={street} type="text" onChange={streetChangeHandler} />
+          <input ref={streetRef} type="text"/>
         </div>
         <div className="street-num">
           <label>House Number</label>
           <input
             type="text"
-            value={streetNum}
-            onChange={streetNumChangeHandler}
+            ref={streetNumRef}
           />
         </div>
         <div className="street-energy">
           <label>Energy</label>
           <input
             type="number"
-            value={energy}
-            onChange={energyChangeHandler}
             step="1"
+            ref={energyRef}
           />
         </div>
         <div className="buttons">
@@ -91,7 +80,7 @@ function errorAcceptHandler(){
           <button type="submit">Save</button>
         </div>
       </form>
-      {error && <ErrorModal title={error.title} description={error.description} onAccept={errorAcceptHandler}/>}
+      {error && <ErrorModal title={error.title} message={error.message} onAccept={errorAcceptHandler}/>}
     </>
   );
 };
