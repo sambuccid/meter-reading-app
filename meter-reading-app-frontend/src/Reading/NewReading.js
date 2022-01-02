@@ -63,7 +63,7 @@ function errorAcceptHandler(){
 }
 
   return (
-    <div>
+    <>
       <form className="new-reading" onSubmit={submitHandler}>
         <div className="street-name">
           <label>Street Name</label>
@@ -92,7 +92,7 @@ function errorAcceptHandler(){
         </div>
       </form>
       {error && <ErrorModal title={error.title} description={error.description} onAccept={errorAcceptHandler}/>}
-    </div>
+    </>
   );
 };
 

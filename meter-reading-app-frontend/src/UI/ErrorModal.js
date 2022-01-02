@@ -5,9 +5,8 @@ const ErrorModal = (props) => {
   function clickHandler() {
     props.onAccept();
   }
-
   return (
-    <div>
+    <>
       <div className={style.coverElement}></div>
       <div className={style.errorModal}>
         <header>
@@ -18,7 +17,7 @@ const ErrorModal = (props) => {
           <Button onClick={clickHandler}>Accept</Button>
         </footer>
       </div>
-    </div>
+    </>
   );
 };
 
