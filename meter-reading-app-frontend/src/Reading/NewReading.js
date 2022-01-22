@@ -27,7 +27,7 @@ const NewReading = (props) => {
   const energyRef = useRef();
   const [error, setError] = useState(null);
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
     const meter = {
       postCode: postCodeRef.current.value,
@@ -44,7 +44,7 @@ const NewReading = (props) => {
     streetNumRef.current.value = "";
     energyRef.current.value = "";
 
-    saveMeter(meter);
+    await saveMeter(meter);
     props.onSavedReading();
   }
   function cancelHandler() {
