@@ -1,18 +1,17 @@
 import "./ReadingList.css";
 import Reading from "./Reading/Reading";
-import ReadingFilter from "./ReadingFilter";
+import ReadingFilter, { emptyFilter } from "./ReadingFilter";
 import { useState } from "react";
 
 function ReadingList(props) {
   const classes = "readingList " + props.className;
-  const [filter, setFilter] = useState({ street: "" });
-  // const [filteredList, setFilteredList] = useState(props.readingList);
+  const [filter, setFilter] = useState(emptyFilter);
 
   let filteredList = props.readingList;
 
-  if (filter.street) {
+  if (filter.postCode) {
     filteredList = props.readingList.filter((reading) =>
-      reading.street.includes(filter.street)
+      reading.postCode.includes(filter.postCode)
     );
   }
 
@@ -27,8 +26,8 @@ function ReadingList(props) {
         {filteredList.map((reading) => (
           <Reading
             key={reading.id}
-            road={reading.street}
-            num={reading.streetNum}
+            postCode={reading.postCode}
+            streetNum={reading.streetNum}
             energy={reading.energy}
           />
         ))}
