@@ -1,18 +1,22 @@
 import "./ReadingFilter.css";
 
+const emptyFilter = {
+  postCode: ""
+};
+
 function ReadingFilter(props) {
-  function streetChangeHandler(event) {
+  function postCodeChangeHandler(event) {
     props.onFilterChange({
-      street: event.target.value,
+      postCode: event.target.value
     });
   }
 
   return (
     <div className="reading-filter">
-      <label>Street</label>
-      <input onChange={streetChangeHandler}></input>
+      <label>Post Code</label>
+      <input onChange={postCodeChangeHandler}></input>
     </div>
   );
 }
 
-export default ReadingFilter;
+export { ReadingFilter as default, emptyFilter };
