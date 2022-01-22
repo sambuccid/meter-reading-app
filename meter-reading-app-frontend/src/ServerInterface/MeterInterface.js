@@ -16,14 +16,19 @@ function saveMeter(meter) {
   }
 
   //delayed to provide limits of async code, that will be needed when talking with server
-  setTimeout(() => {
-    meterList.push({ ...ObjConverter.appToServer(meter), id: id });
-  }, 100);
-
-  fetch("/meter/new", {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const newMeter = { ...meter, id: id };
+      console.log(newMeter);
+      meterList.push(ObjConverter.appToServer(newMeter));
+      resolve();
+    }, 100);
+  });
+  /*
+  await fetch("/meter/new", {
     method: "POST",
     body: ObjConverter.appToServer(meter)
-  });
+  });*/
 }
 
 function allMeters() {
