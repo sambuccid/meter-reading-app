@@ -1,7 +1,7 @@
 function serverToApp(meter) {
   return {
     id: meter.id,
-    postCode: meter.address.postCode,
+    postCode: meter.address.postcode,
     streetNum: meter.address.housenum,
     energy: meter.gasReading
   };
