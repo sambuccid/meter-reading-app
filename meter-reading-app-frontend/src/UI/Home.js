@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Home.css";
 import Button from "./Button";
 import ReadingList from "../ReadingList";
@@ -9,9 +9,14 @@ function Home() {
   const [showReading, setShowReading] = useState(false);
   const [readingList, setReadingList] = useState([]); //TODO this is wrong, needs to fix it to ansycronously read initial data
 
-  function loadReadingList(callback) {
-    meterInterface.allMeters(callback);
-  }
+  const loadReadingList = useCallback(async () => {
+    const readings = await meterInterface.allMeters();
+    setReadingList(readings);
+  }, []);
+
+  useEffect(() => {
+    loadReadingList();
+  }, [loadReadingList]);
 
   function newReadingClickHandler() {
     setShowReading(true);
@@ -21,9 +26,9 @@ function Home() {
     setShowReading(false);
   }
 
-  function savedReadingHandler() {
+  async function savedReadingHandler() {
     setShowReading(false);
-    loadReadingList(setReadingList);
+    loadReadingList();
   }
 
   return (
