@@ -35,7 +35,7 @@ public class AddressIntegrationTests {
 	
 	@Test
 	public void findAddressEndpoint() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get("/address/find")
+		MvcResult mvcResult = mockMvc.perform(get("/addresses")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"postcode\":\"EC1 1PL\"}"))
 			.andExpect(status().isOk()).andReturn();

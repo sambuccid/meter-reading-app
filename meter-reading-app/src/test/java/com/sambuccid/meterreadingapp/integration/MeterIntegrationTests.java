@@ -14,7 +14,6 @@ import com.sambuccid.meterreadingapp.entity.Address;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,7 +30,7 @@ public class MeterIntegrationTests {
 	
 	@Test
 	public void newMeter() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
+		MvcResult mvcResult = mockMvc.perform(post("/meters")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"gasReading\":123}"))
 			.andExpect(status().isOk()).andReturn();
@@ -39,22 +38,32 @@ public class MeterIntegrationTests {
 	}
 	
 	@Test
+	public void allMeters() throws Exception {
+		MvcResult mvcResult = mockMvc.perform(post("/meters")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"gasReading\":123}"))//TODO add other fields
+			.andExpect(status().isOk()).andReturn();
+
+		mockMvc.perform(get("/meters"))
+			.andExpect(status().isOk())
+			.andExpect(content().string(containsString("\"gasReading\":123")));
+	}
+
+	@Test
 	public void getMeter() throws Exception {
-		mockMvc.perform(get("/meter")
-				.param("id", "1234567890"))
+		mockMvc.perform(get("/meters/1234567890"))
 			.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void newMeterGetsSaved() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(post("/meter/new")
+		MvcResult mvcResult = mockMvc.perform(post("/meters")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"gasReading\":123}"))//TODO add other fields
 			.andExpect(status().isOk()).andReturn();
 		String newMeterId = mvcResult.getResponse().getContentAsString();
 		
-		mockMvc.perform(get("/meter")
-				.param("id", newMeterId))
+		mockMvc.perform(get("/meters/"+newMeterId))
 			.andExpect(status().isOk())
 			.andExpect(content().string(containsString("\"gasReading\":123")));
 	}
@@ -62,12 +71,12 @@ public class MeterIntegrationTests {
 	//TODO this should be tested in the unit test, because it tests what the service does
 	@Test
 	public void newMeterWithNewAddress() throws Exception {
-		mockMvc.perform(post("/meter/new")
+		mockMvc.perform(post("/meters")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"gasReading\":123,\"address\":{\"postcode\":\"EC1 1PL\",\"housenum\":\"12\"}}"))
 			.andExpect(status().isOk());
 		
-		MvcResult mvcResult = mockMvc.perform(get("/address/find")
+		MvcResult mvcResult = mockMvc.perform(get("/addresses")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"postcode\":\"EC1 1PL\"}"))
 			.andExpect(status().isOk()).andReturn();

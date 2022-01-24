@@ -16,13 +16,13 @@ import com.sambuccid.meterreadingapp.service.AddressService;
 import com.sambuccid.meterreadingapp.service.MeterService;
 
 @RestController
-@RequestMapping("address")
+@RequestMapping("addresses")
 public class AddressController {
 	
 	@Autowired
 	private AddressService addressService;
 	
-	@GetMapping("/find")
+	@GetMapping()
 	public List<Address> findAddress(@RequestBody Address addressProps) {
 		return addressService.findAddress(addressProps);
 	}
